@@ -5,7 +5,7 @@
 }
 
 :root {
-    --background: #181818;
+    --background: #091f3f;
     --primary: #F0F0F0;
     --secondary: #A3A3A3;
     --link-hover: #e4e4e4;
@@ -36,7 +36,7 @@ nav > ul::after {
     width: 90%;
     height: 100%;
     z-index: -1;
-    background: linear-gradient(180deg, #000000 60%, rgba(18, 18, 18, 0) 100%);
+    background: linear-gradient(180deg, var(--background) 60%, rgba(18, 18, 18, 0) 100%);
 }
 
 nav > ul > a {
@@ -66,7 +66,7 @@ nav > ul > a:hover {
     position: absolute;
     inset: 0;
     z-index: -3;
-    height: 130vh;
+    height: 120vh;
 }
 
 .overlay {
@@ -74,7 +74,7 @@ nav > ul > a:hover {
     height: 100%;
     width: 100%;
     z-index: -1;
-    background: radial-gradient(68.88% 114.03% at 102.34% 64.41%, rgba(0, 0, 0, 0) 0%, #000000 100%);
+    background: radial-gradient(68.88% 114.03% at 102.34% 64.41%, rgba(0, 0, 0, 0) 0%, var(--background) 100%);
 }
 
 .bg > img {
