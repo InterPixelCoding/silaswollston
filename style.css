@@ -1,0 +1,180 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #181818;
+    --primary: #F0F0F0;
+    --secondary: #A3A3A3;
+    --link-hover: #e4e4e4;
+}
+
+body {
+    font-family: 'Author', sans-serif;
+    background: var(--background);
+}
+
+nav {
+    width: 100%;
+}
+
+nav > ul {
+    display: flex;
+    padding: 1.5rem;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--primary);
+}
+
+nav > ul::after {
+    position: absolute;
+    content: '';
+    right: 0;
+    width: 90%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(180deg, #000000 60%, rgba(18, 18, 18, 0) 100%);
+}
+
+nav > ul > a {
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    color: inherit;
+    font-weight: 100;
+    font-size: 1.75rem;
+
+    transition: 450ms ease-in-out;
+}
+
+nav > ul > a:hover {
+    text-shadow: 0 5px 5px white;
+}
+
+.home-btn {
+    width: 50%;
+    min-width: fit-content;
+    justify-content: flex-start;
+}
+
+.bg {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    height: 130vh;
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background: radial-gradient(68.88% 114.03% at 102.34% 64.41%, rgba(0, 0, 0, 0) 0%, #000000 100%);
+}
+
+.bg > img {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.display-text {
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    justify-content: center;
+    width: 100%;
+}
+
+.display-text > h1 {
+    color: var(--primary);
+    font-size: 6rem;
+    font-weight: 375;
+}
+
+.display-text > h2 {
+    color: var(--secondary);
+    font-size: 2.5rem;
+    font-weight: 280;
+}
+
+.menu-btn {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    nav {
+        position: fixed;
+        width: 100%;
+        top: -100%;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(30, 30, 30, 0.5);
+        backdrop-filter: blur(10px);
+        transition: 1s ease-in-out;
+    }
+    nav.open {
+        top: 0%;
+    }
+    nav > ul::after {
+        display: none;
+    }
+    nav > ul {
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10vh;
+    }
+    .menu-btn {
+        cursor: pointer;
+        padding: 20px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: var(--background);
+        box-shadow: 0 10px 30px 20px var(--background);
+    }
+
+    .overlay {
+        background: linear-gradient(179.34deg, var(--background) 40%, rgba(0, 0, 0, 0) 100%);
+    }
+    .menu-btn > div {
+        margin: 4px 0;
+        width: 2rem;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--primary);
+    }
+
+    .menu-btn.close > div {
+        position: absolute;
+    }
+    .menu-btn.close > div:nth-child(1) {
+        display: none;
+    }
+    .menu-btn.close > div:nth-child(2) {transform: translateY(10px) rotate(45deg);}
+    .menu-btn.close > div:nth-child(3) {transform: translateY(10px) rotate(-45deg);}
+
+    .display-text > h1 {
+        font-size: 4rem;
+    }
+    .display-text > h2 {
+        font-size: 2rem;
+    }
+}
