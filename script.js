@@ -13,7 +13,10 @@ const navigation_layout = [
 
 function create_element(type, class_name) {
     const el = document.createElement(type);
-    el.classList.add(class_name);
+    const classes = class_name.split(", ");
+    classes.forEach(cls => {
+        el.classList.add(cls.replace(/_/g, "-"));
+    });
     return el;
 }
 
@@ -35,10 +38,29 @@ function create_computer_nav(navigation_container, navigation_layout, test_pages
     })
 }
 
-function create_mobile_nav(nav) {
+function create_mobile_nav(navigation_container, navigation_layout) {
     const hamburger = create_element("img", "nav-button");
-    hamburger.src = './assets/hamburger.svg'
-    nav.appendChild(hamburger)
+    hamburger.src = './assets/hamburger.svg';
+    hamburger.classList.add('image-shadow')
+    navigation_container.appendChild(hamburger);
+
+    const navigation = create_element("div", "mobile-navigation, default-component");
+    navigation_container.appendChild(navigation);
+
+    const exit = create_element("img", "exit-button");
+    exit.src = './assets/exit.svg'
+    navigation.appendChild(exit)
+
+        const nav_items = navigation_layout[1].pages;
+        nav_items.forEach(item => {
+            const nav_item = create_element("a", "page-link");
+            nav_item.href = item.link;
+            nav_item.textContent = item.text;
+            navigation.appendChild(nav_item)
+        })
+
+    hamburger.addEventListener("click", () => {navigation.classList.add('active')})
+    exit.addEventListener("click", () => {navigation.classList.remove('active')})
 }
 
 function get_client_width() {
@@ -53,11 +75,14 @@ function shorten_text(text_query, length) {
 
 if(get_client_width() > 700) {
     create_computer_nav(navigation_container, navigation_layout, true)
-} else {create_mobile_nav(navigation_container)}
+} else {
+    navigation_container.classList.add('mobile-view')
+    create_mobile_nav(navigation_container, navigation_layout);
+}
 
 if(get_client_width() < 900) {
     shorten_text('.info-container > p', 500)
 }
 if (get_client_width() < 600) {
-    shorten_text('.info-container > p', 380)
+    shorten_text('.info-container > p', 250)
 }
