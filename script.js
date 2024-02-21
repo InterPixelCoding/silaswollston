@@ -16,7 +16,7 @@ const navigation_container = document.querySelector('nav');
 
 const navigation_layout = [
     {pages: [
-        {text: null, image: './assets/home.svg', link: './index.html'}
+        {text: null, image: './assets/Home.svg', link: './index.html'}
     ]},
     {pages: [
         {text: 'The Rare Theatrical Project', link: './trtp.html'},
