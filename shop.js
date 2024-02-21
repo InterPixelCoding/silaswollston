@@ -23,7 +23,7 @@ fetch('./website_struct.md')
                     link_el.setAttribute("target", "_blank");
                     link_el.setAttribute("rel", "noopener noreferrer");
                         const image_el = create_element("img", null);
-                        image_el.src = `/assets/shop/${file}`;
+                        image_el.src = `./assets/shop/${file}`;
                     link_el.href = link;
                     link_el.appendChild(image_el);
                     name_el.textContent = name;
