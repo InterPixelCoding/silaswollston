@@ -15,7 +15,7 @@
     - Keep the topics and texts talked about as timeless as possible
 - [x] Colour Palette(s)
 - ### [x] Font(s)
-    - Added Temporary Font
+    - Added Larken and TT Interphases
 
 - ### [x] Designing Landing Page
     - Added section on 'The Rare Theatrical Project'
