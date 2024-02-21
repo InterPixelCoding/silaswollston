@@ -20,6 +20,8 @@ fetch('./website_struct.md')
                 const new_item = create_element("div", "shop-item, subtle-component");
                     const name_el = create_element("span", "item-name");
                     const link_el = create_element("a", "image-link");
+                    link_el.setAttribute("target", "_blank");
+                    link_el.setAttribute("rel", "noopener noreferrer");
                         const image_el = create_element("img", null);
                         image_el.src = `/assets/shop/${file}`;
                     link_el.href = link;
