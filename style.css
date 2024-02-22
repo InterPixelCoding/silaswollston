@@ -25,16 +25,25 @@ body > *:not(.background-image, nav, .cursor){
     transition: all 2s ease;
 }
 
+a, .nav-button {cursor: pointer}
+
 .cursor {
-    position: absolute;
+    position: fixed;
     z-index: 1000;
     width: 3rem;
     height: 3rem;
-    transition: 200ms ease all;
+    transition: 100ms ease all;
+    transform: translate(-50%, -50%);
 }
 
 h1 {font-size: 6rem; font-family: 'Larken'; font-weight: 400;}
 h2 {font-size: 4rem; text-align: center;}
+
+.text-shadow {filter: drop-shadow(0 .5rem .25rem #0a1128a9)}
+
+.glow {
+    filter: drop-shadow(0 .35rem .25rem var(--light-blue)); 
+}
 
 h1.center-heading {
     width: 100%;

@@ -23,19 +23,6 @@ function create_element(type, class_name) {
     return el;
 }
 
-// Mouse Cursor
-const custom_mouse_cursor = create_element("img", "cursor");
-custom_mouse_cursor.src = './assets/cursor.svg';
-document.body.appendChild(custom_mouse_cursor);
-
-setInterval(() => {
-    window.addEventListener("mousemove", (e) => {
-        custom_mouse_cursor.style.top = e.clientY + 'px';
-        custom_mouse_cursor.style.left = e.clientX + 'px';
-    })
-}, 200);
-
-
 const navigation_container = document.querySelector('nav');
 
 const navigation_layout = [
