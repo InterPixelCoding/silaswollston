@@ -24,3 +24,101 @@ stage_els.forEach(el => {
     })
 })
 
+const data_arr = [
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+]
+
+function create_blog_post(obj) {
+    const update = create_element("div", "update")
+        const title = create_element("span", "title");
+        title.textContent = obj.title;
+        const date = create_element("span", "date");
+        date.textContent = convert_date(obj.date);
+        const divider = create_element("div", "vertical-divider");
+        const blog_content = create_element("p", "blog-content");
+        blog_content.innerHTML = obj.blog_content;
+        const read_more = create_element("button", "read-more");
+            const read_more_image = create_element("img", null);
+            read_more_image.src = './assets/right-arrow.svg';
+        read_more.appendChild(read_more_image) 
+    append_children(update, [title, date, divider, blog_content, read_more]);
+    
+    return update;
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    const updates_container = panel_container.querySelector('.updates');
+    let updates_height = updates_container.offsetHeight;
+    let current_height = 0;
+    let max_updates = false;
+
+    data_arr.forEach(update => {
+        const new_update = create_blog_post(update);
+        if(!max_updates) {
+            updates_container.appendChild(new_update);
+            current_height += new_update.offsetHeight + document.body.offsetHeight * 0.0125;
+            console.log(updates_height, current_height)
+            if(current_height > updates_height) {
+                new_update.remove()
+                max_updates = true;
+            }
+        }
+    })
+
+    setTimeout(() => {
+        animate_children('.updates', 2000);
+        animate_children('.stages', 400);
+    }, 2000)
+})
+
+
+

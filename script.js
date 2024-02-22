@@ -23,6 +23,29 @@ function create_element(type, class_name) {
     return el;
 }
 
+function convert_date(date) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const [month, day, year] = date.split('-').map(Number);
+    const suffix = (day === 1 || day === 21 || day === 31) ? 'st' : (day === 2 || day === 22) ? 'nd' : (day === 3 || day === 23) ? 'rd' : 'th';
+
+    return `${day}${suffix} ${months[month - 1]} ${year}`;
+}
+
+function animate_children(container_query, speed) {
+    const direct_children = document.querySelectorAll(`${container_query} > *:not(.no-anim)`);
+    console.log(direct_children)
+    direct_children.forEach( function(child, index) {
+        child.style.opacity = '0';
+        child.style.transition = '500ms ease all';
+        child.style.transform = 'translateX(-20%) rotateX(50deg)';
+        setTimeout(() => {
+            child.style.opacity = '1';
+            child.style.transform = 'translateX(0%) rotateX(0deg)';
+        }, index * speed);
+    })
+}
+
 const navigation_container = document.querySelector('nav');
 
 const navigation_layout = [
@@ -36,6 +59,10 @@ const navigation_layout = [
         {text: 'Shop', link: './shop.html'}
     ]}
 ]
+
+function append_children(container, children) {
+    children.forEach(child => {container.appendChild(child)})
+}
 
 function create_computer_nav(navigation_container, navigation_layout, test_pages) {
     navigation_layout.forEach(item => {
