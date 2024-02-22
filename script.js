@@ -12,6 +12,30 @@ function staggered_animation(els, speed) {
 
 staggered_animation(animation_els, 400);
 
+function create_element(type, class_name) {
+    const el = document.createElement(type);
+    if(class_name != null) {
+        const classes = class_name.split(", ");
+        classes.forEach(cls => {
+            el.classList.add(cls.replace(/_/g, "-"));
+        });
+    }
+    return el;
+}
+
+// Mouse Cursor
+const custom_mouse_cursor = create_element("img", "cursor");
+custom_mouse_cursor.src = './assets/cursor.svg';
+document.body.appendChild(custom_mouse_cursor);
+
+setInterval(() => {
+    window.addEventListener("mousemove", (e) => {
+        custom_mouse_cursor.style.top = e.clientY + 'px';
+        custom_mouse_cursor.style.left = e.clientX + 'px';
+    })
+}, 200);
+
+
 const navigation_container = document.querySelector('nav');
 
 const navigation_layout = [
@@ -25,17 +49,6 @@ const navigation_layout = [
         {text: 'Shop', link: './shop.html'}
     ]}
 ]
-
-function create_element(type, class_name) {
-    const el = document.createElement(type);
-    if(class_name != null) {
-        const classes = class_name.split(", ");
-        classes.forEach(cls => {
-            el.classList.add(cls.replace(/_/g, "-"));
-        });
-    }
-    return el;
-}
 
 function create_computer_nav(navigation_container, navigation_layout, test_pages) {
     navigation_layout.forEach(item => {

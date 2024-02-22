@@ -19,10 +19,18 @@ body {
     font-family: 'TT-Sans', sans-serif;
 }
 
-body > *:not(.background-image, nav){
+body > *:not(.background-image, nav, .cursor){
     opacity: 0;
     transform: translateX(-100%) scaleX(0.8);
     transition: all 2s ease;
+}
+
+.cursor {
+    position: absolute;
+    z-index: 1000;
+    width: 3rem;
+    height: 3rem;
+    transition: 200ms ease all;
 }
 
 h1 {font-size: 6rem; font-family: 'Larken'; font-weight: 400;}
