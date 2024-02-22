@@ -64,17 +64,7 @@ const data_arr = [
          ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
          ornare leo, non suscipit magna interdum eu.
         `
-    },
-    {
-        title: "Title of Blog Post",
-        date: "02-22-2024",
-        blog_content: `
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
-         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
-         ornare leo, non suscipit magna interdum eu.
-        `
-    },
+    }
 ]
 
 function create_blog_post(obj) {
@@ -95,30 +85,38 @@ function create_blog_post(obj) {
     return update;
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-    const updates_container = panel_container.querySelector('.updates');
-    let updates_height = updates_container.offsetHeight;
-    let current_height = 0;
-    let max_updates = false;
+const updates_container = panel_container.querySelector('.updates');
+let updates_height = updates_container.offsetHeight;
+let current_height = 0;
+let max_updates = false;
 
-    data_arr.forEach(update => {
-        const new_update = create_blog_post(update);
+data_arr.forEach( function(update, index) {
+    const new_update = create_blog_post(update);
+    if(get_client_width() > 1000) {
         if(!max_updates) {
             updates_container.appendChild(new_update);
             current_height += new_update.offsetHeight + document.body.offsetHeight * 0.0125;
             console.log(updates_height, current_height)
             if(current_height > updates_height) {
-                new_update.remove()
+                if(index === 0) {
+                    const blog_container = document.querySelector('.updates-container');
+                    updates_container.classList.add('fit-content');
+                    blog_container.classList.add('fit-content');
+                } else {new_update.remove()}
                 max_updates = true;
             }
         }
-    })
-
-    setTimeout(() => {
-        animate_children('.updates', 2000);
-        animate_children('.stages', 400);
-    }, 2000)
+    } else {
+        if(index < 3) {
+            updates_container.appendChild(new_update);
+        }
+    }
 })
+
+setTimeout(() => {
+    animate_children('.updates', 2000);
+    animate_children('.stages', 400);
+}, 2000)
 
 
 
