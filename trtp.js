@@ -92,24 +92,10 @@ let max_updates = false;
 
 data_arr.forEach( function(update, index) {
     const new_update = create_blog_post(update);
-    if(get_client_width() > 1000) {
-        if(!max_updates) {
-            updates_container.appendChild(new_update);
-            current_height += new_update.offsetHeight + document.body.offsetHeight * 0.0125;
-            console.log(updates_height, current_height)
-            if(current_height > updates_height) {
-                if(index === 0) {
-                    const blog_container = document.querySelector('.updates-container');
-                    updates_container.classList.add('fit-content');
-                    blog_container.classList.add('fit-content');
-                } else {new_update.remove()}
-                max_updates = true;
-            }
-        }
-    } else {
-        if(index < 3) {
-            updates_container.appendChild(new_update);
-        }
+    let max = 3;
+    if(get_client_width() < 1340) {max = 2}
+    if(index < max) {
+        updates_container.appendChild(new_update);
     }
 })
 
