@@ -8,6 +8,10 @@
     justify-content: center;
 }
 
+.panel-container > div {
+    transition: 200ms ease all;
+}
+
 .panel-container > .the-vision {min-width: 30em; max-width: 20em;}
 
 .panel-container h2 {font-size: 3rem; font-weight: 400;}
@@ -199,6 +203,7 @@ span.date {
         rgba(255,255,255,0) 100%
     );
     }
+    .the-vision {height: 100%}
 }
 
 @media (max-width: 1000px) {

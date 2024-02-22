@@ -1,7 +1,9 @@
 const panel_container = document.querySelector('.panel-container');
+const the_vision = document.querySelector('.the-vision')
 const stages = panel_container.querySelector('.the-vision > .stages')
 const stage_els = stages.querySelectorAll('.stage');
 const progress_bar = stages.querySelector('.progress-line');
+const blog_container = document.querySelector('.updates-container');
 
 function fix_progress_bar(container, progress_bar, first) {
     const children = Array.from(container.children);
@@ -50,8 +52,8 @@ const data_arr = [
         date: "02-22-2024",
         blog_content: `
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
-         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+        Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+        ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
          ornare leo, non suscipit magna interdum eu.
         `
     },
@@ -99,7 +101,13 @@ data_arr.forEach( function(update, index) {
     }
 })
 
+fix_height_in_pixels(blog_container)
+
 setTimeout(() => {
+    if(get_client_width() < 1340) {
+        the_vision.style.height = `${blog_container.offsetHeight}px`
+    }
+
     animate_children('.updates', 2000);
     animate_children('.stages', 400);
 }, 2000)

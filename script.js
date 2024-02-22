@@ -32,6 +32,10 @@ function convert_date(date) {
     return `${day}${suffix} ${months[month - 1]} ${year}`;
 }
 
+function fix_height_in_pixels(el) {
+    el.style.height = `${el.style.offsetHeight}px`;
+}
+
 function animate_children(container_query, speed) {
     const direct_children = document.querySelectorAll(`${container_query} > *:not(.no-anim)`);
     console.log(direct_children)
