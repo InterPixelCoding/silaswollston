@@ -25,6 +25,24 @@ body > *:not(.background-image, nav, .cursor, .no-anim){
     transition: all 2s ease;
 }
 
+.custom-scroll-bar::-webkit-scrollbar {
+    width: 1.5em;
+    border-radius: 3rem;
+}
+.custom-scroll-bar::-webkit-scrollbar-track {
+   width: 1.5em;
+   background: rgba(255, 255, 255, 0.2);
+   border-radius: 3rem;
+}
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+    width: .75em;
+    background: rgba(255, 255, 255, 0.6);
+    background-clip: content-box;
+    border: 4px solid transparent;
+    border-radius: 3rem;
+}
+
+
 .pop-up-container {
     position: fixed;
     inset: 0;
@@ -48,6 +66,8 @@ h1 {font-size: 6rem; font-family: 'Larken'; font-weight: 400;}
 h2 {font-size: 4rem; text-align: center;}
 
 .text-shadow {filter: drop-shadow(0 .5rem .25rem #0a1128a9)}
+
+.dark-text-shadow {filter: drop-shadow(0 .5rem .25rem #000102c2)}
 
 .glow {
     filter: drop-shadow(0 .35rem .25rem var(--light-blue)); 

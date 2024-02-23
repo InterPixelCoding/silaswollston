@@ -77,6 +77,66 @@ const data_arr = [
          ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
          ornare leo, non suscipit magna interdum eu.
         `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
+    },
+    {
+        title: "Title of Blog Post",
+        date: "02-22-2024",
+        blog_content: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
+         Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, 
+         ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor 
+         ornare leo, non suscipit magna interdum eu.
+        `
     }
 ]
 
@@ -94,6 +154,8 @@ function create_blog_post(obj) {
             read_more.classList.add('text-shadow');
             const read_more_image = create_element("img", null);
             read_more_image.src = './assets/right-arrow.svg';
+
+            read_more.addEventListener("click", open_pop_up);
         read_more.appendChild(read_more_image) 
     append_children(update, [title, date, divider, blog_content, read_more]);
     
@@ -128,9 +190,13 @@ setTimeout(() => {
 function create_pop_up_structure() {
     const pop_up_container = create_pop_up();
         const timeline = create_element("div", "timeline");
-        const updates_container = create_element("div", "main-updates-container");
+        const updates_container = create_element("div", "main-updates-container, custom-scroll-bar");
         const current_post = create_element("div", "current-post");
-    append_children(pop_up_container, [timeline, updates_container, current_post]);
+        const exit = create_element("img", "exit, dark-text-shadow");
+            exit.src = './assets/exit.svg'
+        exit.addEventListener("click", close_pop_up)
+    
+    append_children(pop_up_container, [timeline, updates_container, current_post, exit]);
     document.body.appendChild(pop_up_container);
     
     data_arr.forEach(update => {

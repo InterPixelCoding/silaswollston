@@ -37,8 +37,20 @@ function conv_px_to_em(px_value, base_font_size = 16) {
 }
 
 function create_pop_up() {
-    const pop_up_container = create_element("div", "pop-up-container, no-anim");
+    const pop_up_container = create_element("div", "pop-up-container, no-anim, hidden");
     return pop_up_container;
+}
+
+function open_pop_up() {
+    const pop_up = document.querySelector(".pop-up-container");
+    document.body.style.overflow = 'hidden';
+    pop_up.classList.remove('hidden');
+}
+
+function close_pop_up() {
+    const pop_up = document.querySelector(".pop-up-container");
+    document.body.style.overflow = 'auto';
+    pop_up.classList.add('hidden');
 }
 
 function fit_content(el) {el.style.height = 'fit-content'}
