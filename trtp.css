@@ -52,6 +52,8 @@
     color: var(--white);
 }
 
+.updates-container > h2 {transform: translateY(-.4rem)}
+
 .stages {
     display: grid;
     position: relative;
@@ -100,10 +102,13 @@
     left: 18px;
     top: 50%;
     transform: translateY(-50%);
-    height: 55%;
+    height: 80%;
     width: 3px;
     background: linear-gradient(
-        var(--white) 20%, transparent 100%
+        transparent 0%,
+        var(--white) 10%,
+        var(--white) 20%, 
+        transparent 100%
     );
     z-index: -100;
 }
@@ -209,15 +214,44 @@ span.date {
 @media (max-width: 1000px) {
     .panel-container {
         flex-direction: column;
+        width: 100%;
         align-items: center;
         justify-content: center;
     }
-
-    .panel-container > .the-vision {width: 100%}
-    .panel-container > .updates-container {width: 100%; height: auto;}
+    .panel-container > .the-vision {
+        min-width: 75vw;
+        align-items: center;
+    }
+    .panel-container > .updates-container {
+        height: auto;
+        min-width: 75vw;
+    }
+    .the-vision > .stages {
+        width: 80%;
+    }
 }
 
 @media (max-width: 600px) {
     .panel-container > div {width: 100%}
     .panel-container {flex-direction: column;}
+    .the-vision > .stages {
+        width: 100%;
+    }
+}
+
+@media (max-width: 550px) {
+  .panel-container > .the-vision, .panel-container > .updates-container {
+    min-width: 95vw;
+    border: none;
+  }
+  .panel-container > .the-vision > .stages > .stage {
+    margin-left: 20%;
+    width: 70%;
+  }
+  .panel-container > .the-vision > .stages > .stage::after {
+    left: -25%;
+  }
+  .stages > .progress-line {
+    left: calc(5% + 7.5px);
+  }
 }

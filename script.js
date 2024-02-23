@@ -32,13 +32,18 @@ function convert_date(date) {
     return `${day}${suffix} ${months[month - 1]} ${year}`;
 }
 
+function conv_px_to_em(px_value, base_font_size = 16) {
+    return px_value / base_font_size;
+}
+
+function fit_content(el) {el.style.height = 'fit-content'}
+
 function fix_height_in_pixels(el) {
     el.style.height = `${el.style.offsetHeight}px`;
 }
 
 function animate_children(container_query, speed) {
     const direct_children = document.querySelectorAll(`${container_query} > *:not(.no-anim)`);
-    console.log(direct_children)
     direct_children.forEach( function(child, index) {
         child.style.opacity = '0';
         child.style.transition = '500ms ease all';

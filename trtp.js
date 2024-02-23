@@ -5,10 +5,23 @@ const stage_els = stages.querySelectorAll('.stage');
 const progress_bar = stages.querySelector('.progress-line');
 const blog_container = document.querySelector('.updates-container');
 
+function handle_progress_bar() {
+    fix_progress_bar(stages, progress_bar, true)
+
+    stage_els.forEach(el => {
+        el.addEventListener("mouseover", () => {
+            the_vision.style.height = 'fit-content'
+            the_vision.style.maxHeight = '200vh';
+            setTimeout(() => {
+                fix_progress_bar(stages, progress_bar, false)
+            }, 500);
+        })
+    })
+}   
+
 function fix_progress_bar(container, progress_bar, first) {
     const children = Array.from(container.children);
-    const height = Math.abs(children[0].offsetTop - children[3].offsetTop)
-
+    const height = Math.abs(children[0].offsetTop - children[3].offsetTop);
     if(first) {
         progress_bar.style.height = `${(height * 2) + 15}px`;
     } else {
@@ -16,15 +29,14 @@ function fix_progress_bar(container, progress_bar, first) {
     }
 }
 
-fix_progress_bar(stages, progress_bar, true)
-
 stage_els.forEach(el => {
     el.addEventListener("mouseover", () => {
-        setTimeout(() => {
-            fix_progress_bar(stages, progress_bar, false)
-        }, 500);
-    })
+        fit_content(the_vision);
+        console.log('hover')
+    });
 })
+
+// handle_progress_bar();
 
 const data_arr = [
     {
@@ -79,6 +91,8 @@ function create_blog_post(obj) {
         const blog_content = create_element("p", "blog-content");
         blog_content.innerHTML = obj.blog_content;
         const read_more = create_element("button", "read-more");
+            read_more.style.cursor = 'pointer';
+            read_more.classList.add('text-shadow');
             const read_more_image = create_element("img", null);
             read_more_image.src = './assets/right-arrow.svg';
         read_more.appendChild(read_more_image) 
