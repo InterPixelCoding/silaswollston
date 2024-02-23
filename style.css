@@ -19,10 +19,18 @@ body {
     font-family: 'TT-Sans', sans-serif;
 }
 
-body > *:not(.background-image, nav, .cursor){
+body > *:not(.background-image, nav, .cursor, .no-anim){
     opacity: 0;
     transform: translateX(-100%) scaleX(0.8);
     transition: all 2s ease;
+}
+
+.pop-up-container {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 31, 84, 0.3);
+    backdrop-filter: blur(15px);
+    z-index: 90;
 }
 
 a, .nav-button {cursor: pointer}
@@ -99,9 +107,9 @@ h1.center-heading {
 
 .background-image > .gradient {
     position: absolute;
-    inset: 0;
+    inset: -50%;
     z-index: 1;
-    background: linear-gradient(294deg, transparent 20%, var(--darkest) 50%);
+    background: linear-gradient(294deg, transparent 40%, var(--darkest) 50%);
 }
 
 nav {
@@ -263,5 +271,26 @@ h1 {
     .wide-margin {margin-inline: 2.5rem;}
     h2 {font-size: 1.75rem;}
     .info-container {padding: 1.25rem; width: 90vw}
+}
+
+@media (max-width: 450px) {
+    body .read-more {
+        max-height: 20vh;
+        overflow: hidden;
+        background: linear-gradient(var(--white) 80%, transparent);
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        transition: 800ms ease all;
+    }
+
+    body .read-more:hover {
+        max-height: 100vh;
+        background: linear-gradient(var(--white) 80%, var(--white));
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
 }
 

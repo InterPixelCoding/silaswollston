@@ -28,7 +28,7 @@
  }
 
 .panel-container p:not(.update > p):hover {
-    max-height: 8em;
+    max-height: 12em;
     background: linear-gradient(var(--white) 60%, var(--white));
     color: transparent;
     -webkit-background-clip: text;

@@ -36,6 +36,11 @@ function conv_px_to_em(px_value, base_font_size = 16) {
     return px_value / base_font_size;
 }
 
+function create_pop_up() {
+    const pop_up_container = create_element("div", "pop-up-container, no-anim");
+    return pop_up_container;
+}
+
 function fit_content(el) {el.style.height = 'fit-content'}
 
 function fix_height_in_pixels(el) {
@@ -54,6 +59,33 @@ function animate_children(container_query, speed) {
         }, index * speed);
     })
 }
+
+function get_overflow_height(el) {
+    return el.offsetHeight;
+}
+
+// Read More
+function read_more() {
+    const read_mores = document.querySelectorAll('.read-more');
+    read_mores.forEach(read_more => {
+        const read_more_button = create_element("img", "read-more-button");
+        read_more_button.src = './assets/read-more.svg'
+        read_more.appendChild(read_more_button);
+    })
+}
+
+function responsive_background() {
+    const background = document.querySelector('.gradient');
+    if(background) {
+        window.addEventListener("mousemove", (e) => {
+            let scaledX = e.clientX / 220;
+            let scaledY = e.clientY / 220;
+            background.style.transform = `translate(${scaledX}%, ${scaledY}%) rotate(${e.clientY / 30}deg)`
+        })
+    }
+}
+
+responsive_background();
 
 const navigation_container = document.querySelector('nav');
 

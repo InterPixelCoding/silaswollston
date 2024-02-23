@@ -32,7 +32,6 @@ function fix_progress_bar(container, progress_bar, first) {
 stage_els.forEach(el => {
     el.addEventListener("mouseover", () => {
         fit_content(the_vision);
-        console.log('hover')
     });
 })
 
@@ -126,5 +125,21 @@ setTimeout(() => {
     animate_children('.stages', 400);
 }, 2000)
 
+function create_pop_up_structure() {
+    const pop_up_container = create_pop_up();
+        const timeline = create_element("div", "timeline");
+        const updates_container = create_element("div", "main-updates-container");
+        const current_post = create_element("div", "current-post");
+    append_children(pop_up_container, [timeline, updates_container, current_post]);
+    document.body.appendChild(pop_up_container);
+    
+    data_arr.forEach(update => {
+        const new_post = create_blog_post(update);
+        new_post.style.opacity = '1';
+        updates_container.appendChild(new_post);
+    })
+}
+
+create_pop_up_structure();
 
 

@@ -1,0 +1,15 @@
+.pop-up-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: calc(7.5vh + 2.5rem);
+}
+
+.main-updates-container {
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    height: 100%;
+    overflow-y: auto;
+    color: var(--white);
+}
