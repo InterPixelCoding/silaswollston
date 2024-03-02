@@ -181,7 +181,9 @@ function shorten_text(text_query, length) {
 }
 
 function get_page_name() {
-    return window.location.pathname.split('/').pop();
+    let page = window.location.pathname.split('/').pop();
+    if(page) {return page}
+    else {return "index.html"}
 }
 
 if(get_client_width() > 700) {
