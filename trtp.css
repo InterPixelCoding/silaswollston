@@ -99,8 +99,8 @@
 
 .stages > .progress-line {
     position: absolute;
-    left: 18px;
     top: 50%;
+    left: 1.125rem;
     transform: translateY(-50%);
     height: 80%;
     width: 3px;
@@ -226,6 +226,7 @@ span.date {
     .panel-container > .the-vision {
         min-width: 75vw;
         align-items: center;
+        height: fit-content;
     }
     .panel-container > .updates-container {
         height: auto;
@@ -244,6 +245,10 @@ span.date {
     }
 }
 
+@media (min-width: 500px) {
+    h1.center-heading {margin-inline: 5vw; width: auto;}
+}
+
 @media (max-width: 550px) {
   .panel-container > .the-vision, .panel-container > .updates-container {
     min-width: 95vw;
@@ -256,7 +261,14 @@ span.date {
   .panel-container > .the-vision > .stages > .stage::after {
     left: -25%;
   }
-  .stages > .progress-line {
-    left: calc(5% + 7.5px);
-  }
+  .update > span {
+      margin-inline: 0;
+      width: 100%;
+      text-align: center;
+    }
+    .stages > .progress-line {left: 1.75rem}
+}
+
+@media (max-width: 380px) {
+    .stages > .progress-line {left: 1.5rem}
 }

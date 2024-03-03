@@ -40,6 +40,14 @@ stage_els.forEach(el => {
 
 // handle_progress_bar();
 
+function position_progress_bar(progress_bar, stage_el) {
+    const computed_style = window.getComputedStyle(stage_el, ':after');
+    const stage_el_pseudo_left = parseInt(computed_style.getPropertyValue('left'));
+    console.log(stage_el_pseudo_left);
+}
+
+// position_progress_bar(progress_bar, stage_els[0]);
+
 function create_blog_post(arr, is_arr_facing_right = false) {
     const update = create_element("div", "update")
         const title = create_element("span", "title");
@@ -124,10 +132,9 @@ read_data(API_KEY, LINK_ID)
 fix_height_in_pixels(blog_container)
 
 setTimeout(() => {
-    if(get_client_width() < 1340) {
-        the_vision.style.height = `${blog_container.offsetHeight}px`
+    if(get_client_width() < 1340 && get_client_width() > 1000) {
+        blog_container.style.height = `${the_vision.offsetHeight}px`
     }
-
     animate_children('.updates', 2000);
     animate_children('.stages', 400);
 }, 2000)
