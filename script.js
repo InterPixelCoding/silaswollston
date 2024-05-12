@@ -90,9 +90,9 @@ function responsive_background() {
     const background = document.querySelector('.gradient');
     if(background) {
         window.addEventListener("mousemove", (e) => {
-            let scaledX = e.clientX / 220;
-            let scaledY = e.clientY / 220;
-            background.style.transform = `translate(${scaledX}%, ${scaledY}%) rotate(${e.clientY / 30}deg)`
+            let scaledX = e.clientX / 250;
+            let scaledY = e.clientY / 250;
+            background.style.transform = `translate(${scaledX}%, ${scaledY}%) rotate(${e.clientY / 50}deg)`
         })
     }
 }
@@ -106,10 +106,10 @@ const navigation_layout = [
         {text: null, image: './assets/Home.svg', link: './index.html'}
     ]},
     {pages: [
-        {text: 'The Rare Theatrical Project', link: './trtp.html'},
         {text: 'Listen', link: './listen.html'},
         {text: 'Read', link: './read.html'},
-        {text: 'Shop', link: './shop.html'}
+        {text: 'About', link: './about.html'},
+        {text: 'Contact', link: './contact.html'}
     ]}
 ]
 
@@ -202,7 +202,7 @@ if(get_page_name() === 'index.html') {
     }
 }
 
-const pages = ['INDEX', 'TRTP', 'LISTEN', 'READ', 'SHOP']
+const pages = ['INDEX', 'LISTEN', 'READ', 'ABOUT', 'CONTACT'];
 
 // Get Text Data
 function markdown_to_json(input) {
@@ -251,9 +251,9 @@ fetch('./website_struct.md')
     .then(text => {
         const output = markdown_to_json(text);
         const page_title = get_page_name().replace('.html', '').toUpperCase();
-        const content = output[pages.indexOf(page_title)].content;
+        const content_items = output[pages.indexOf(page_title)].content;
 
-        content.forEach(item => {
+        content_items.forEach(item => {
             const html_els = get_elements(item.data_heading);
             html_els.forEach(el => {el.innerHTML = item.data})
         })

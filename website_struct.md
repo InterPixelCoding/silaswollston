@@ -1,20 +1,12 @@
 # Index
-## trtp-info
-### Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla deserunt obcaecati culpa asperiores hic architecto possimus saepe quidem itaque facilis earum est, expedita modi quam delectus magnam assumenda blanditiis. Aliquam, natus incidunt. Consectetur, rerum expedita delectus minima itaque reprehenderit neque architecto sapiente deserunt eaque quibusdam eum corrupti optio ipsa dolore tempore, provident quos iure sequi quam veritatis adipisci enim! Facere suscipit dicta doloremque ducimus dignissimos nam ab voluptates ut sequi facilis.
-# The Rare Theatrical Project
-## step-1
-### Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Lorem ipsum dolor sit amet,  consectetur adipiscing elit. 
-
-## step-2
-### Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
-## step-3 
-### Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris.
-## step-4
-### Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Lorem ipsum dolor sit amet,  consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.
-
+## index-contact
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non architecto ea beatae voluptatem exercitationem necessitatibus similique eligendi in unde blanditiis. Ipsam quidem itaque fuga. Pariatur voluptatum odio dolore ea non est iusto autem quam odit?
 # Listen
 # Read
-# Shop
+# Contact
+## example-biography
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non architecto ea beatae voluptatem exercitationem necessitatibus similique eligendi in unde blanditiis. Ipsam quidem itaque fuga. Pariatur voluptatum odio dolore ea non est iusto autem quam odit?
+
 ## shop-items
 - ### Bach Sonatas for Violin and Harpsichord, https://somm-recordings.com/recording/johann-sebastian-bach-sonatas-for-violin-and-harpsichord/, somm-bach-violin-harpsichord.png
 - ### The Myth of Venice, https://www.amazon.co.uk/Myth-Venice-Gawain-Glenton/dp/B09CRW99MM, myth-of-venice.png
