@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="contact.css">
     <script src="script.js" defer></script>
     <script src="contact.js" defer></script>
-    <title>Silas Wollston - Contact</title>
+    <title>Silas Wollston - About</title>
 </head>
 <body>
     <nav class="subtle-shadow"></nav>
@@ -17,15 +17,15 @@
         <img src="./assets/background.png" alt="">
     </div>
     <div class="padding-5 top"></div>
-    <h1 class="wide-margin center-heading">About</h1>
-    <div class="info-container default-component">
-        <div class="biography-container">
-            <div class="inline-container">
+    <div class="grid">  
+        <div class="info-container default-component">
+            <div class="biography-container">
                 <div class="biography">
                     <div class="image gradient-outline default-component"></div>
                     <div class="biography-text">
                         <h3>Overview</h3>
-                        <p class="custom-scroll-bar"></p>
+                        <a href="#works" class="selected-works hidden">View Selected Works</a>
+                        <p class="custom-scroll-bar copy-text"></p>
                     </div>
                 </div>
                 <div class="biography-specials">
@@ -35,6 +35,9 @@
                     <button class="continue-reading standard-outline">Biography 3</button>
                 </div>
             </div>
+        </div>
+        <div id="works" class="info-container default-component closeable hidden">
+            <div class="selected-works-container custom-scroll-bar"></div>
         </div>
     </div>
 </body>

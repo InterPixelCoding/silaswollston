@@ -1,16 +1,25 @@
+// Styling Version
+let version = 2;
+const style_elements = document.querySelectorAll('h1, .gradient-outline, .standard-outline, .subtle-shadow, .default-component, .info-container, .continue-reading, .background-image > img');
+style_elements.forEach(el => {
+    if(version > 1) {
+        el.classList.add(`v${version}`);
+    }
+})
+
 // Page Load Animation
-const animation_els = document.querySelectorAll("body > *:not(.background-image, nav)");
+const animation_els = document.querySelectorAll("body > *:not(.background-image, nav, .no-anim)");
 
 function staggered_animation(els, speed) {
     els.forEach(function(el, index) {
         setTimeout(() => {
             el.style.opacity = '1';
-            el.style.transform = 'translateX(0%) scaleX(1)';
+            el.style.transform = 'translateY(0%)';
         }, index * speed);
     })
 }
 
-staggered_animation(animation_els, 400);
+staggered_animation(animation_els, 700);
 
 function create_element(type, class_name) {
     const el = document.createElement(type);
@@ -57,6 +66,7 @@ function fit_content(el) {el.style.height = 'fit-content'}
 
 function fix_height_in_pixels(el) {
     el.style.height = `${el.style.offsetHeight}px`;
+    console.log('Fixed Height of' + el)
 }
 
 function animate_children(container_query, speed) {
@@ -95,6 +105,43 @@ function responsive_background() {
             background.style.transform = `translate(${scaledX}%, ${scaledY}%) rotate(${e.clientY / 50}deg)`
         })
     }
+}
+
+function copy_text(selector) {
+    const els = document.querySelectorAll(selector);
+    els.forEach(el => {
+        const outer_container = create_element("div", "outer-container");
+        outer_container.style.position = "relative";
+        const copy_icon = create_element("img", "copy-icon, subtle-shadow");
+        copy_icon.src = './assets/copy.svg';
+
+        copy_icon.addEventListener("click", () => {
+            let copy_text = el.textContent;
+            let anim_duration = 2;
+
+            let first_keyframe = anim_duration * 250;
+            let second_keyframe = anim_duration * 750;
+
+            console.log(first_keyframe, second_keyframe)
+
+            navigator.clipboard.writeText(copy_text);
+            let anim = `image-change ${anim_duration / 2}s linear 0s 2 forwards`;
+            copy_icon.style.animation = anim;
+            
+            setTimeout(() => {
+                copy_icon.src = './assets/copy-tick.svg'
+            }, first_keyframe);
+            setTimeout(() => {
+                copy_icon.src = './assets/copy.svg';
+            }, second_keyframe);
+            setTimeout(() => {
+                copy_icon.style.animation = '';
+            }, anim_duration * 1000);
+        })
+
+        el.parentElement.appendChild(outer_container)
+        append_children(outer_container, [el, copy_icon]);
+    })
 }
 
 responsive_background();
@@ -182,8 +229,7 @@ function shorten_text(text_query, length) {
 
 function get_page_name() {
     let page = window.location.pathname.split('/').pop();
-    if(page) {return page}
-    else {return "index.html"}
+    return page;
 }
 
 if(get_client_width() > 700) {
@@ -244,7 +290,10 @@ function get_elements(attribute_query) {
     if(els) {return els} else {return null}
 }
 
-fetch('./website_struct.md')
+let fetch_json = true;
+
+if(fetch_json) {
+    fetch('./website_struct.md')
     .then(data => {
         return data.text();
     })
@@ -253,11 +302,46 @@ fetch('./website_struct.md')
         const page_title = get_page_name().replace('.html', '').toUpperCase();
         const content_items = output[pages.indexOf(page_title)].content;
 
-        content_items.forEach(item => {
-            const html_els = get_elements(item.data_heading);
-            html_els.forEach(el => {el.innerHTML = item.data})
-        })
+        if(content_items) {
+            content_items.forEach(item => {
+                const html_els = get_elements(item.data_heading);
+                html_els.forEach(el => {el.innerHTML = item.data})
+            })
+        }
     })
+}   
+
+const hover_cards = document.querySelectorAll('.cards-container > .card');
+
+hover_cards.forEach((card, index) => {
+    const base_transform = (index !== 1) ? "translateZ(0)" : "translateZ(1.125rem)";
+    const is_index_two = index === 2;
+
+    card.addEventListener("mousemove", (e) => {
+        const valX = (e.offsetX / card.offsetWidth) - 0.5;
+        const valY = (e.clientY / card.offsetHeight) - 1;
+        const rotation_x = valY * 10;
+        const rotation_y = valX * 10;
+
+        const new_style = `${base_transform} translateZ(5rem) rotateX(${rotation_x}deg) rotateY(${rotation_y}deg) scale(0.95)`;
+
+        if (card.style.transform !== new_style) {
+            card.style.transform = new_style;
+        }
+    });
+
+    card.addEventListener("mouseleave", () => {
+        card.style.transform = `${base_transform} translateZ(0rem) rotateX(0deg) rotateY(0deg)`;
+    });
+});
+
+
+
+
+
+
+
+
 
 
 

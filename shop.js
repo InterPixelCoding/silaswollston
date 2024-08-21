@@ -6,7 +6,7 @@ fetch('./website_struct.md')
     })
     .then(text => {
         const shop_json = markdown_to_json(text).filter(item => {
-            if(item.page === 'Shop') {
+            if(item.page === 'Listen') {
                 return item;
             }
         });
