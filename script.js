@@ -47,6 +47,69 @@ function create_element(type, class_name) {
     return el;
 }
 
+function get_average_light_dark_colors(image_src, callback) {
+    const img_element = new Image();
+
+    img_element.src = image_src;
+    img_element.crossOrigin = "Anonymous"; // This is needed if the image is from a different origin
+    img_element.onload = function() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = img_element.width;
+        canvas.height = img_element.height;
+        ctx.drawImage(img_element, 0, 0, canvas.width, canvas.height);
+
+        const image_data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = image_data.data;
+
+        let light_color = [0, 0, 0];
+        let dark_color = [0, 0, 0];
+        let light_count = 0;
+        let dark_count = 0;
+
+        for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
+            const brightness = (r + g + b) / 3;
+
+            if (brightness > 127) {
+                light_color[0] += r;
+                light_color[1] += g;
+                light_color[2] += b;
+                light_count++;
+            } else {
+                dark_color[0] += r;
+                dark_color[1] += g;
+                dark_color[2] += b;
+                dark_count++;
+            }
+        }
+
+        if (light_count > 0) {
+            light_color = light_color.map(channel => Math.round(channel / light_count));
+        }
+
+        if (dark_count > 0) {
+            dark_color = dark_color.map(channel => Math.round(channel / dark_count));
+        }
+
+        const result = {
+            light_color: `rgb(${light_color[0]}, ${light_color[1]}, ${light_color[2]})`,
+            dark_color: `rgb(${dark_color[0]}, ${dark_color[1]}, ${dark_color[2]})`
+        };
+
+        callback(result);
+    };
+
+    img_element.onerror = function() {
+        console.error('Image failed to load');
+    };
+}
+
+
+
 function convert_date(date) {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     

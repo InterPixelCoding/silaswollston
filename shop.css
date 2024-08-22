@@ -78,6 +78,7 @@
     width: 110%;
     left: -5%;
     height: 30%;
+    transition: all 200ms ease;
 }
 
 .listen-item * {width: 100%; height: 100%;}
@@ -91,12 +92,19 @@
     background: var(--src);
     aspect-ratio: 1 / 1;
     background-size: contain;
+    background-repeat: no-repeat;
 
     transition: all 250ms ease;
 }
 
+.listen-item:has(.active) {z-index: 1}
+
 .listen-item > .buy-link.active {
     top: -2.8rem;
+}
+
+.listen-item > .embed.active, .music-player.active {
+    transform: translateY(27.5%);
 }
 
 .subtle-component {

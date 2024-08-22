@@ -1,3 +1,8 @@
+function active_listener(el, listen_item) {
+    listen_item.addEventListener("mouseenter", (e) => {el.classList.add("active"); })
+    listen_item.addEventListener("mouseleave", (e) => {el.classList.remove("active");})
+}
+
 async function fetch_data(api_key, link) {
     try {
         const sheet_id = link.match(/\/d\/(.*?)\//)[1];
@@ -47,8 +52,23 @@ fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/s
         }, 20); // Adjust timing as needed for smoothness
     }
 
-    data.forEach(item => {
+    const non_performers = data.filter(item => item.is_performer === "FALSE");
+    const performers = data.filter(item => item.is_performer === "TRUE");
+    
+    const formatted_data = [...non_performers, ...performers];
+
+    formatted_data.forEach(item => {
         const listen_item = create_element("div", "listen-item");
+        if((item.embed.substring(0, 1)) !== "<" && item.embed !== "n/a") {
+            const clip_src = `./assets/listen/${item.embed}-clip.mp3`;
+            const track_src = `./assets/listen/${item.embed}.mp3`;
+            listen_item.classList.add('music-player-parent');
+
+            const music_player = generate_music_player(listen_item, `./assets/shop/${item.cover_url}`, clip_src, track_src);
+            active_listener(music_player, listen_item);
+            listen_item.appendChild(music_player);
+        }
+        listen_item.ariaLabel = (item.is_performer).toLowerCase();
         const link = create_element("a", "buy-link");
         link.setAttribute("target", "_blank");
         link.setAttribute("rel", "noopener noreferrer");
@@ -76,12 +96,17 @@ fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/s
             listen_item.appendChild(video);
         }
 
-        if (item.embed != null) {
-            if (!item.embed.split('/').includes('www.youtube.com')) {
+        if (item.embed !== "n/a") {
+            if(listen_item.classList.contains('music-player-parent')) {active_listener(listen_item.querySelector('.music-player'), listen_item);}
+            
+            listen_item.style.marginBottom = '4.5rem';
+
+            if(item.embed.substring(0, 1) === "<") {
                 const embed = create_element("div", "embed");
-                listen_item.style.marginBottom = '4.5rem';
-                listen_item.appendChild(embed);
+                active_listener(embed, listen_item);
+                    listen_item.appendChild(embed);
                 embed.innerHTML = item.embed;
+
 
                 const iframe = embed.querySelector('iframe');
                 if (iframe) {
@@ -101,8 +126,7 @@ fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/s
 
         container.appendChild(listen_item);
 
-        listen_item.addEventListener("mouseenter", (e) => {link.classList.add("active");})
-        listen_item.addEventListener("mouseleave", (e) => {link.classList.remove("active");})
+        active_listener(link, listen_item);
     });
 
     Promise.all(iframes).then(() => {
