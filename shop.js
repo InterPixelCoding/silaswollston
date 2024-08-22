@@ -1,34 +1,113 @@
-const shop_container = document.querySelector('.shop-container')
+async function fetch_data(api_key, link) {
+    try {
+        const sheet_id = link.match(/\/d\/(.*?)\//)[1];
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet_id}/values/A1:Z1000?key=${api_key}`;
+        const response = await fetch(url);
 
-fetch('./website_struct.md')
-    .then(response => {
-        return response.text();
-    })
-    .then(text => {
-        const shop_json = markdown_to_json(text).filter(item => {
-            if(item.page === 'Listen') {
-                return item;
-            }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+        const headers = data.values[0];
+        const rows = data.values.slice(1);
+
+        return rows.map(row => {
+            let obj = {};
+            headers.forEach((header, index) => {
+                obj[header] = row[index] || null;
+            });
+            return obj;
         });
-        const shop_items = (shop_json[0].content[0].data).split('\n');
-        shop_items.forEach(shop_item => {
-            const item_arr = shop_item.split(', ');
-            const name = item_arr[0];
-            const link = item_arr[1];
-            const file = item_arr[2];
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
+}
 
-                const new_item = create_element("div", "shop-item, subtle-component");
-                    const name_el = create_element("span", "item-name");
-                    const link_el = create_element("a", "image-link");
-                    link_el.setAttribute("target", "_blank");
-                    link_el.setAttribute("rel", "noopener noreferrer");
-                        const image_el = create_element("img", null);
-                        image_el.src = `./assets/shop/${file}`;
-                    link_el.href = link;
-                    link_el.appendChild(image_el);
-                    name_el.textContent = name;
-                new_item.appendChild(link_el, name_el);
+const loading_container = document.querySelector('.loading-container');
+const container = document.querySelector('.listen-items');
+const loading_percentage_span = document.querySelector('.loading-percentage');
 
-            shop_container.appendChild(new_item)
-        })
-    })
+fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/spreadsheets/d/1FauXTMjWxaPddvDzqazbUtSWVtY7sgNjVk4arYobhFY/edit?usp=sharing").then(data => {
+    if (!data) return;
+
+    const iframes = [];
+    let loaded_iframes = 0;
+    let current_percentage = 0;
+
+    function update_percentage(target_percentage) {
+        const increment = target_percentage > current_percentage ? 1 : 0;
+
+        const interval = setInterval(() => {
+            current_percentage += increment;
+            if (current_percentage >= target_percentage || current_percentage >= 100) {
+                current_percentage = Math.min(target_percentage, 100);
+                clearInterval(interval);
+            }
+            loading_percentage_span.textContent = `${current_percentage}%`;
+        }, 20); // Adjust timing as needed for smoothness
+    }
+
+    data.forEach(item => {
+        const listen_item = create_element("div", "listen-item");
+        const link = create_element("a", "buy-link");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+        link.href = item.link;
+
+        let icon = "";
+        if(String(item.is_buy) === "TRUE") {
+            icon = "url(./assets/shopping-basket.png)";
+        } else {
+            icon = "url(./assets/open_link.svg)"
+        }
+
+        link.style.setProperty("--src", icon);
+
+        listen_item.appendChild(link);
+
+        if (((item.cover_url).split('.')[1]) !== 'mp4') {
+            const cover_image = create_element("div", "cover-image, subtle-component");
+            cover_image.style.setProperty("background-image", `url("./assets/shop/${item.cover_url}")`);
+            listen_item.appendChild(cover_image);
+        } else {
+            const video = create_element("video", "video-embed, subtle-component");
+            video.src = `./assets/shop/${item.cover_url}`;
+            video.setAttribute("controls", true);
+            listen_item.appendChild(video);
+        }
+
+        if (item.embed != null) {
+            if (!item.embed.split('/').includes('www.youtube.com')) {
+                const embed = create_element("div", "embed");
+                listen_item.style.marginBottom = '4.5rem';
+                listen_item.appendChild(embed);
+                embed.innerHTML = item.embed;
+
+                const iframe = embed.querySelector('iframe');
+                if (iframe) {
+                    iframes.push(new Promise(resolve => {
+                        iframe.onload = () => {
+                            loaded_iframes++;
+                            const target_percentage = Math.floor((loaded_iframes / iframes.length) * 100);
+                            update_percentage(target_percentage);
+                            resolve();
+                        };
+                    }));
+                }
+            }
+        } else {
+            listen_item.style.marginBottom = '2.5rem';
+        }
+
+        container.appendChild(listen_item);
+
+        listen_item.addEventListener("mouseenter", (e) => {link.classList.add("active");})
+        listen_item.addEventListener("mouseleave", (e) => {link.classList.remove("active");})
+    });
+
+    Promise.all(iframes).then(() => {
+        update_percentage(100);  // Ensure the percentage reaches 100%
+        loading_container.classList.add('hidden');  // Hide the loading container
+    });
+});
+

@@ -47,46 +47,35 @@ const biography_arr = [
 const selected_works_container = document.querySelector('.selected-works-container');
 const works_container = document.querySelector('.info-container:nth-child(2)')
 const biography_buttons = document.querySelectorAll('.biography-specials > button');
-const biography_par = document.querySelector('.biography-text > p');
-const biography_heading = document.querySelector('.biography-text > h3');
-const selected_works_btn = document.querySelector('.selected-works');
-
-
-selected_works_btn.addEventListener("click", () => {
-    works_container.classList.remove('hidden');
-})
+const biography_par = document.querySelector('p.biography-text');
 
 biography_arr.forEach( function(biography_obj, index) {
     biography_buttons[index].textContent = biography_obj.biography_type;
     biography_buttons[index].ariaLabel = index;
 })
 
-biography_par.textContent = biography_arr[0].biography_text;
-biography_par.style.setProperty("--par-height", `${biography_par.offsetHeight}px`);
+// Use innerHTML to allow HTML content, such as links, to render
+biography_par.innerHTML = biography_arr[0].biography_text;
+// biography_par.style.setProperty("--par-height", `${biography_par.offsetHeight}px`);
 
 biography_buttons.forEach(button => {
     button.addEventListener("click", () => {
         const biography_obj = biography_arr[String(button.ariaLabel)];
 
-        biography_par.textContent = biography_obj.biography_text;
-        biography_heading.textContent = biography_obj.biography_type;
+        // Use innerHTML to set the content as HTML
+        biography_par.innerHTML = biography_obj.biography_text;
 
-        if(biography_obj.biography_type === "Composer") {
-            selected_works_btn.classList.remove('hidden');
-        } else {
-            selected_works_btn.classList.add('hidden');
-        }
-
-        biography_par.style.setProperty("--par-height", `${biography_par.offsetHeight}px`);
+        // biography_par.style.setProperty("--par-height", `${biography_par.offsetHeight}px`);
     })
 })
+
 
 if(get_client_width() > 700) {
     copy_text(".copy-text")
 }
 
-
-fetch('./website_struct.md')
+function work_list() {
+    fetch('./website_struct.md')
     .then(data => {
         return data.text();
     })
@@ -120,3 +109,4 @@ fetch('./website_struct.md')
             }
         })
     })
+}

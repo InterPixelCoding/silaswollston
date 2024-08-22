@@ -8,7 +8,7 @@ style_elements.forEach(el => {
 })
 
 // Page Load Animation
-const animation_els = document.querySelectorAll("body > *:not(.background-image, nav, .no-anim)");
+const animation_els = document.querySelectorAll("body > *:not(.background-image, nav, .no-anim, .cards-container, .loading-container)");
 
 function staggered_animation(els, speed) {
     els.forEach(function(el, index) {
@@ -19,7 +19,22 @@ function staggered_animation(els, speed) {
     })
 }
 
-staggered_animation(animation_els, 700);
+function staggered_animation_3d(els, speed) {
+    els.forEach(function(el, index) {
+        el.style.transition = 'all 7.5s ease';
+        el.style.transform = 'translateZ(-100rem)';
+        setTimeout(() => {
+            el.style.transform = 'translateZ(0rem)';
+            el.style.opacity = '1';
+            el.style.transition = 'all 250ms ease-out';
+        }, (index * speed) + 1000);
+    })
+}
+
+staggered_animation(animation_els, 200);
+
+const cards = document.querySelectorAll('.card');
+staggered_animation_3d(cards, 100);
 
 function create_element(type, class_name) {
     const el = document.createElement(type);
@@ -239,14 +254,14 @@ if(get_client_width() > 700) {
     create_mobile_nav(navigation_container, navigation_layout);
 }
 
-if(get_page_name() === 'index.html') {
-    if(get_client_width() < 900) {
-        shorten_text('.info-container > p', 500)
-    }
-    if (get_client_width() < 600) {
-        shorten_text('.info-container > p', 250)
-    }
-}
+// if(get_page_name() === 'index.html') {
+//     if(get_client_width() < 900) {
+//         shorten_text('.info-container > p', 500)
+//     }
+//     if (get_client_width() < 600) {
+//         shorten_text('.info-container > p', 250)
+//     }
+// }
 
 const pages = ['INDEX', 'LISTEN', 'READ', 'ABOUT', 'CONTACT'];
 
@@ -291,6 +306,8 @@ function get_elements(attribute_query) {
 }
 
 let fetch_json = true;
+
+if(['index.html', null, undefined, '', ' '].includes(get_page_name())) {fetch_json = false;}
 
 if(fetch_json) {
     fetch('./website_struct.md')

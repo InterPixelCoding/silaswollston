@@ -1,28 +1,102 @@
-.shop-container {
+.info {
+    display: grid;
+    text-align: center;
+    width: 100%;
+    margin-top: 2.5rem;
+    font-size: 2.5rem;
+    color: var(--white);
+    font-family: 'Larken';
+    font-weight: 100;
+}
+
+.listen-items {
     margin: auto;
     width: 90%;
     padding: 2.5rem;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
-    gap: 5vw;
+    gap: 0 3rem;
 }
 
-.shop-item {
-    width: 20vw;
-    height: 20vw;
-    max-width: 20em;
-    max-height: 20em;
-    min-width: 17.5em;
-    min-height: 17.5em;
-    overflow: hidden;
+.listen-item {
+    position: relative;
+    min-width: 17.5rem;
+    height: 17.5rem;
 }
 
-.shop-item * {width: 100%; height: 100%;}
+.loading-container {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    backdrop-filter: blur(0.5rem);
+    color: var(--white);
+    font-weight: 300;
+    z-index: 50;
+    transform: translateY(0%);
 
-.image-link > img {
-    object-fit: cover;
+    transition: all 2s ease;
+}
+
+.loading-container.hidden {
+    transform: translateY(-100%);
+}
+
+.loading-container > * {grid-area: 1 / 1}
+
+.loading-container > img {
+    width: 5rem;
+    animation: loading 500ms linear infinite;
+}
+
+.video-embed.subtle-component {
+    width: auto;
+    max-width: 100%;
+    display: block;
+}
+
+.listen-item:has(.video-embed) {
+    width: auto;
+    height: 20rem;
+    max-width: unset;
+    min-width: unset;
+    transform: translateY(2.5rem);
+}
+
+.listen-item > .cover-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+}
+
+.listen-item > .embed {
+    position: absolute;
+    top: 90%;
+    width: 110%;
+    left: -5%;
+    height: 30%;
+}
+
+.listen-item * {width: 100%; height: 100%;}
+
+.listen-item > .buy-link {
+    position: absolute;
+    top: 0rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3rem;
+    background: var(--src);
+    aspect-ratio: 1 / 1;
+    background-size: contain;
+
+    transition: all 250ms ease;
+}
+
+.listen-item > .buy-link.active {
+    top: -2.8rem;
 }
 
 .subtle-component {
@@ -42,5 +116,10 @@
         width: 80%;
         height: 80%;
     }
+}
+
+@keyframes loading {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
 }
 
