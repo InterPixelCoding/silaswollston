@@ -367,6 +367,12 @@ h1 {
 
 .padding-5.top {display: block; height: 7.5vh;}
 
+@media (min-width: 1990px) {
+    html {
+        zoom: 1.25;
+    }
+}
+
 @media (min-width: 1440px) {
     h1 {
         height: 15vh;

@@ -1,6 +1,9 @@
+let lazy_loading = false;  // Toggle this variable to show or hide loading
+if(get_client_width() < 800) {lazy_loading = true}
+
 function active_listener(el, listen_item) {
-    listen_item.addEventListener("mouseenter", (e) => {el.classList.add("active"); })
-    listen_item.addEventListener("mouseleave", (e) => {el.classList.remove("active");})
+    listen_item.addEventListener("mouseenter", (e) => { el.classList.add("active"); });
+    listen_item.addEventListener("mouseleave", (e) => { el.classList.remove("active"); });
 }
 
 async function fetch_data(api_key, link) {
@@ -28,9 +31,15 @@ async function fetch_data(api_key, link) {
     }
 }
 
+// Select elements
 const loading_container = document.querySelector('.loading-container');
 const container = document.querySelector('.listen-items');
 const loading_percentage_span = document.querySelector('.loading-percentage');
+
+// Immediately hide loading container if lazy_loading is true
+if (lazy_loading) {
+    loading_container.classList.add('hidden');
+}
 
 fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/spreadsheets/d/1FauXTMjWxaPddvDzqazbUtSWVtY7sgNjVk4arYobhFY/edit?usp=sharing").then(data => {
     if (!data) return;
@@ -59,7 +68,7 @@ fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/s
 
     formatted_data.forEach(item => {
         const listen_item = create_element("div", "listen-item");
-        if((item.embed.substring(0, 1)) !== "<" && item.embed !== "n/a") {
+        if ((item.embed.substring(0, 1)) !== "<" && item.embed !== "n/a") {
             const clip_src = `./assets/listen/${item.embed}-clip.mp3`;
             const track_src = `./assets/listen/${item.embed}.mp3`;
             listen_item.classList.add('music-player-parent');
@@ -75,10 +84,10 @@ fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/s
         link.href = item.link;
 
         let icon = "";
-        if(String(item.is_buy) === "TRUE") {
+        if (String(item.is_buy) === "TRUE") {
             icon = "url(./assets/shopping-basket.png)";
         } else {
-            icon = "url(./assets/open_link.svg)"
+            icon = "url(./assets/open_link.svg)";
         }
 
         link.style.setProperty("--src", icon);
@@ -97,16 +106,17 @@ fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/s
         }
 
         if (item.embed !== "n/a") {
-            if(listen_item.classList.contains('music-player-parent')) {active_listener(listen_item.querySelector('.music-player'), listen_item);}
+            if (listen_item.classList.contains('music-player-parent')) {
+                active_listener(listen_item.querySelector('.music-player'), listen_item);
+            }
             
             listen_item.style.marginBottom = '4.5rem';
 
-            if(item.embed.substring(0, 1) === "<") {
+            if (item.embed.substring(0, 1) === "<") {
                 const embed = create_element("div", "embed");
                 active_listener(embed, listen_item);
-                    listen_item.appendChild(embed);
+                listen_item.appendChild(embed);
                 embed.innerHTML = item.embed;
-
 
                 const iframe = embed.querySelector('iframe');
                 if (iframe) {
@@ -129,9 +139,20 @@ fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/s
         active_listener(link, listen_item);
     });
 
+    if (!lazy_loading) {
+        // Show the loading container if lazy_loading is false
+        loading_container.classList.remove('hidden');
+    }
+
     Promise.all(iframes).then(() => {
         update_percentage(100);  // Ensure the percentage reaches 100%
-        loading_container.classList.add('hidden');  // Hide the loading container
+        if (!lazy_loading) {
+            loading_container.classList.add('hidden');  // Hide the loading container
+        }
+    }).catch(error => {
+        console.error('Error with iframe loading:', error);
+        if (!lazy_loading) {
+            loading_container.classList.add('hidden');  // Hide the loading container on error
+        }
     });
 });
-

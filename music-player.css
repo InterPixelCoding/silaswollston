@@ -31,8 +31,8 @@
 
 .play-container > .play-buttons {
     display: grid;
-    place-content: center;
     width: fit-content;
+    place-content: center;
     gap: .25rem;
     grid-template-columns: auto auto;
     height: fit-content;
@@ -42,8 +42,8 @@
 .play-buttons > .span-info {height: fit-content;}
 
 .play-button {
-    height: 100%;
-    width: fit-content;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     cursor: pointer;
     transform: scale(0.95)
 }
@@ -60,12 +60,20 @@
     overflow: hidden;
 }
 
+.play-button.paused {
+    background-image: url(./assets/play.svg);
+}
+
+.play-buttons > .play-button:not(.paused) {
+    aspect-ratio: 1 / 1;
+    background-image: url(./assets/pause.svg);
+}
+
 .elapsed {
     width: 0;
     height: 100%;
     border-radius: 5vw;
     background: var(--white);
-    transition: width 1s linear;
 }
 
 .time-values {
