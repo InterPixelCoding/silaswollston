@@ -8,7 +8,7 @@ style_elements.forEach(el => {
 })
 
 // Page Load Animation
-const animation_els = document.querySelectorAll("body > *:not(.background-image, nav, .no-anim, .cards-container, .loading-container)");
+const animation_els = document.querySelectorAll("body > *:not(.background-image, nav, .no-anim, .cards-container, .loading-container, .read-panel)");
 
 function staggered_animation(els, speed) {
     els.forEach(function(el, index) {
@@ -45,6 +45,26 @@ function create_element(type, class_name) {
         });
     }
     return el;
+}
+
+function do_bounding_boxes_intersect(element1, element2) {
+    // Get the bounding boxes of the two elements
+    const rect1 = element1.getBoundingClientRect();
+    const rect2 = element2.getBoundingClientRect();
+
+    console.log('Element 1:', rect1);
+    console.log('Element 2:', rect2);
+
+    // Check if the bounding boxes intersect
+    const is_intersecting = !(
+        rect1.right < rect2.left ||
+        rect1.left > rect2.right ||
+        rect1.bottom < rect2.top ||
+        rect1.top > rect2.bottom
+    );
+
+    console.log('Is intersecting:', is_intersecting);
+    return is_intersecting;
 }
 
 function get_average_light_dark_colors(image_src, callback) {
@@ -108,7 +128,40 @@ function get_average_light_dark_colors(image_src, callback) {
     };
 }
 
+async function fetch_data(sheet_name, api_key = "AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", link = "https://docs.google.com/spreadsheets/d/1FauXTMjWxaPddvDzqazbUtSWVtY7sgNjVk4arYobhFY/edit?usp=sharing") {
+    try {
+        const sheet_id = link.match(/\/d\/(.*?)\//)[1];
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet_id}/values/${sheet_name}!A1:Z1000?key=${api_key}`;
+        const response = await fetch(url);
 
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+        const headers = data.values[0];
+        const rows = data.values.slice(1);
+
+        return rows.map(row => {
+            let obj = {};
+            headers.forEach((header, index) => {
+                obj[header] = row[index] || null;
+            });
+            return obj;
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
+}
+
+function itallics(text_input) {
+    let text = '';
+    Array.from(text_input.split("*")).forEach( function(item, index) {
+        if(index % 2 === 1) {
+            text += `<span class="read-accent">${item}</span>`
+        } else {text += item}
+    })
+    return text;
+}
 
 function convert_date(date) {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

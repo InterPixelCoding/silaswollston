@@ -1,0 +1,156 @@
+@font-face {
+    font-family: "Stylish-Serif";
+    src: url(./fonts/Quattrocento-Regular.ttf);
+}
+
+.book-container {
+    padding-inline: 2.5rem;
+    margin-top: 5vh;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.book {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: fit-content;
+    max-width: 50rem;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+}
+
+.book > .book-cover {
+    width: 10em;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    aspect-ratio: 160 / 250;
+    border-radius: .25rem;
+    filter: drop-shadow(0 .25rem .25rem rgba(0, 4, 18, 0.698))
+}
+
+.book > .container {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    color: var(--white);
+}
+
+.container > .text-name {
+    text-align: left;
+    line-height: 88%;
+    font-weight: 600;
+    font-size: 3rem;
+    font-family: 'Larken';
+}
+
+.container > .text-date {
+    opacity: 0.8;
+    font-size: 1.125rem;
+    font-weight: 100;
+}
+
+.container p.text-description {
+    font-weight: 100;
+    width: 90%;
+}
+
+
+.read-accent {
+    font-weight: 900;
+    font-style: italic;
+}
+
+button.continue-reading {
+    margin-top: auto;
+    font-family: "TT-Sans";
+    font-size: 1.125rem;
+    padding-block: .75rem;
+}
+
+.read-panel {
+    display: grid;
+    gap: 2.5rem;
+    position: fixed;
+    right: 2.5rem;
+    top: 10vh;
+    width: clamp(40em, 45vw, 100vw);
+    height: 85vh;
+    background: var(--transparent-blue);
+    color: var(--white);
+    padding: 0 4rem;
+    backdrop-filter: blur(2.5rem);
+}
+
+.read-panel > .text-name {
+    font-size: 3rem;
+    display: block;
+    text-align: center;
+    font-family: "Larken";
+    font-weight: 600;
+    line-height: 100%;
+}
+
+.read-panel > .text-abstract {
+    overflow: auto;
+    display: grid;
+    gap: 1em;
+    font-family: "Stylish-Serif";
+    line-height: 125%;
+    font-size: 1.125rem;
+}
+
+.read-panel.mobile {
+    top: unset;
+    width: 100vw;
+    bottom: 0;
+    left: 50%;
+    padding-bottom: 5vh;
+    transform: translateX(-50%);
+    right: auto;
+}
+
+
+@media (max-width: 1300px) {
+    .book-container {
+        width: 100vw;
+    }
+    .book {
+        margin: auto;
+        width: fit-content;
+    }
+}
+
+@media (max-width: 1000px) {
+    .container > .text-name {font-size: 2.5rem;}
+}
+
+@media (max-width: 900px) {.text-abstract, p {text-align: left;}}
+
+@media (max-width: 750px) {
+    .book-container {gap: 10vh}
+    .container > .text-name {font-size: 2rem;}
+    .book {
+        display: flex;
+        flex-direction: column;
+    }
+    .book > .container {
+        align-items: center;
+        gap: .5rem
+    }
+    .book > .book-cover {
+        width: 7.5em;
+    }
+    .container > .text-name, h2.text-date, .text-description {
+        text-align: center;
+    }
+    button.continue-reading {
+        margin-top: 1rem;
+    }
+}
+

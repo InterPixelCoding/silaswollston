@@ -6,31 +6,6 @@ function active_listener(el, listen_item) {
     listen_item.addEventListener("mouseleave", (e) => { el.classList.remove("active"); });
 }
 
-async function fetch_data(api_key, link) {
-    try {
-        const sheet_id = link.match(/\/d\/(.*?)\//)[1];
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheet_id}/values/A1:Z1000?key=${api_key}`;
-        const response = await fetch(url);
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const data = await response.json();
-        const headers = data.values[0];
-        const rows = data.values.slice(1);
-
-        return rows.map(row => {
-            let obj = {};
-            headers.forEach((header, index) => {
-                obj[header] = row[index] || null;
-            });
-            return obj;
-        });
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return null;
-    }
-}
-
 // Select elements
 const loading_container = document.querySelector('.loading-container');
 const container = document.querySelector('.listen-items');
@@ -41,7 +16,7 @@ if (lazy_loading) {
     loading_container.classList.add('hidden');
 }
 
-fetch_data("AIzaSyAM07AIfBXXRU0Y8MbpzySSVtCAG3xjHr0", "https://docs.google.com/spreadsheets/d/1FauXTMjWxaPddvDzqazbUtSWVtY7sgNjVk4arYobhFY/edit?usp=sharing").then(data => {
+fetch_data("Listen").then(data => {
     if (!data) return;
 
     const iframes = [];
