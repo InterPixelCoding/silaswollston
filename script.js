@@ -31,6 +31,125 @@ function staggered_animation_3d(els, speed) {
     })
 }
 
+function typewriter(el, index, delay) {
+    const arr = el.innerHTML.split('').map(char => {return char});
+    el.innerHTML = '';
+    setTimeout(() => {
+        arr.forEach( function(char, index) {
+            setTimeout(() => {
+                el.innerHTML += char;
+            }, index * delay);
+        })
+    }, index * delay * 100);
+}
+
+function wrap_children(parent) {
+    if (parent && parent.hasChildNodes()) {
+        const wrapper = create_element("div", "content");
+        while (parent.firstChild) {
+            wrapper.appendChild(parent.firstChild);
+        }
+        parent.appendChild(wrapper);
+
+        return wrapper;
+    }
+}
+
+function get_height_of_children(parent) {
+    let height = 0;
+    parent.childNodes[0].childNodes.forEach(child => {
+        height += child.offsetHeight;
+    })
+
+    return height;
+}
+
+function get_scroll_progress(element) {
+    if (!element || element.scrollHeight === element.clientHeight) {
+        return 0;
+    }
+    return element.scrollTop / (element.scrollHeight - element.clientHeight);
+}
+
+function create_anchor_tags(text) {
+    const url_pattern = /https?:\/\/[^\s]+/g;
+    const result = text.replace(url_pattern, (url) => {
+        return `<a href="${url}">${url}</a>`;
+    });
+    return result;
+}
+
+function generate_scroll_bar(parent) {
+    if (parent.offsetHeight < parent.scrollHeight) {
+        const content = wrap_children(parent);
+        const scroll_bar_container = create_element("div", "scroll-bar-container");
+        const thumb_track = create_element("div", "thumb-track");
+
+        // Reset thumb track and scrollTop on page load
+        function reset_scroll() {
+            content.scrollTop = 0;
+            thumb_track.style.top = `0px`;
+        }
+
+        function update_thumb_position() {
+            const scroll_progress = get_scroll_progress(content);
+            thumb_track.style.top = `${scroll_progress * (scroll_bar_container.offsetHeight - thumb_track.offsetHeight)}px`;
+        }
+
+        content.addEventListener("scroll", update_thumb_position);
+        reset_scroll(); // Ensure initial state is correct
+
+        let is_dragging = false;
+        let start_y, start_top;
+
+        thumb_track.addEventListener("mousedown", (e) => {
+            e.preventDefault(); // Prevent default action to avoid accidental drag initiation
+            is_dragging = true;
+            start_y = e.clientY;
+            start_top = parseFloat(thumb_track.style.top || 0);
+
+            document.addEventListener("mousemove", on_mouse_move);
+            document.addEventListener("mouseup", on_mouse_up);
+        });
+
+        function on_mouse_move(e) {
+            if (is_dragging) {
+                const container_rect = scroll_bar_container.getBoundingClientRect();
+                const thumb_rect = thumb_track.getBoundingClientRect();
+                const container_height = container_rect.height + 5; // Increase container height by 5px
+                const thumb_height = thumb_rect.height + 5; // Increase thumb height by 5px
+
+                // Calculate the new position for the thumb
+                let new_top = start_top + (e.clientY - start_y);
+                new_top = Math.max(0, Math.min(container_height - thumb_height, new_top));
+
+                thumb_track.style.top = `${new_top}px`;
+
+                // Calculate the scroll progress and set scrollTop
+                const scroll_progress = new_top / (container_height - thumb_height);
+                content.scrollTop = scroll_progress * (content.scrollHeight - content.offsetHeight);
+            }
+        }
+
+        function on_mouse_up() {
+            is_dragging = false;
+            document.removeEventListener("mousemove", on_mouse_move);
+            document.removeEventListener("mouseup", on_mouse_up);
+        }
+
+        thumb_track.addEventListener("mouseenter", () => {
+            thumb_track.classList.add("active-hover");
+        });
+
+        thumb_track.addEventListener("mouseleave", () => {
+            thumb_track.classList.remove("active-hover");
+        });
+
+        scroll_bar_container.appendChild(thumb_track);
+        parent.appendChild(scroll_bar_container);
+    }
+}
+
 staggered_animation(animation_els, 200);
 
 const cards = document.querySelectorAll('.card');

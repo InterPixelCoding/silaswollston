@@ -14,7 +14,13 @@ function generate_book(obj, text_image=obj.text_image, text_name=obj.text_name, 
             const button = create_element("button", "continue-reading, standard-outline");
             button.textContent = "Read More";
             button.addEventListener("click", () => {
-                console.log("Opening... " + text_extra);
+                update_read_panel(obj, read_panel);
+                setTimeout(() => {
+                    read_panel.classList.remove("minimised")
+                    if(read_panel.offsetHeight > (document.body.offsetHeight - 100)) {
+                        document.body.style.overflowY = "hidden";
+                    }
+                }, 250);
             })
         append_children(container, [title, date, description, button]);
     append_children(book, [cover, container]);
@@ -23,12 +29,19 @@ function generate_book(obj, text_image=obj.text_image, text_name=obj.text_name, 
 }
 
 function generate_read_panel() {
-    const panel = create_element("div", "read-panel, standard-outline");
+    const panel = create_element("div", "read-panel, standard-outline, minimised");
         const background_image = create_element("div", "backdrop");
         const title = create_element("span", "text-title, text-name");
-        const text_abstract = create_element("div", "text-abstract, custom-scroll-bar");
+        const text_abstract = create_element("div", "text-abstract, scroll-container");
+        const mobile_exit = create_element("img", "exit");
+        mobile_exit.src = "./assets/exit.svg";
 
-    append_children(panel, [background_image, title, text_abstract]);
+        mobile_exit.addEventListener("click", () => {
+            panel.classList.add("minimised");
+            document.body.style.overflowY = "auto";
+        })
+
+    append_children(panel, [background_image, title, text_abstract, mobile_exit]);
     return panel;
 }
 
@@ -36,18 +49,34 @@ const read_panel = generate_read_panel();
 document.body.appendChild(read_panel);
 
 function update_read_panel(current_obj, read_panel) {
+    try{read_panel.querySelector(".read-in-website").remove();} catch(err) {}
     read_panel.querySelector(".backdrop").style.backgroundImage = `url(./assets/read/${current_obj.text_image})`;
     read_panel.querySelector(".text-title").textContent = current_obj.text_name;
 
     let pars = current_obj.text_extra.split('\n');
     const abstract_container = read_panel.querySelector(".text-abstract");
-    pars.forEach(par => {
+    abstract_container.innerHTML = '';
+    pars.forEach( function(par, index) {
         if(par != "") {
             let new_par = create_element("p");
-            new_par.innerHTML = itallics(par);
+            new_par.innerHTML = create_anchor_tags(itallics(par));
             abstract_container.appendChild(new_par);
         }
     })
+
+    if(current_obj.text_source != null) {
+        const read_in_website = create_element("a", "read-in-website, continue-reading, standard-outline");
+        read_in_website.textContent = "Link to Full Article";
+        read_in_website.setAttribute("noopener", true);
+        read_in_website.setAttribute("nonreferrer", true);
+        read_in_website.setAttribute("target", "_blank");
+        read_in_website.href = current_obj.text_source;
+
+        read_panel.appendChild(read_in_website);
+    }
+
+
+    document.body.addEventListener("DOMContentLoaded", generate_scroll_bar(abstract_container));
 }
 
 fetch_data("Read").then(data => {
@@ -64,9 +93,8 @@ fetch_data("Read").then(data => {
 
     update_read_panel(formatted_data[0], read_panel);
     let overlap = get_client_width() - read_panel.offsetWidth - book_container.offsetWidth - 750 ;
-
     if(overlap < 20) {
-        read_panel.classList.add("mobile")
+        read_panel.classList.add("mobile");
     }
 
     formatted_data.forEach(book => {
