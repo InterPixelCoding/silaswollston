@@ -1,4 +1,4 @@
-let lazy_loading = true;  // Toggle this variable to show or hide loading
+let lazy_loading = false;  // Toggle this variable to show or hide loading
 if(get_client_width() < 800) {lazy_loading = true}
 
 function active_listener(el, listen_item) {
