@@ -477,6 +477,47 @@ function shorten_text(text_query, length) {
     long_text.textContent = `${text_content.substring(0, length)} ...`;
 }
 
+function typewriter_transition(el, old_text, new_text, speed) {
+    el.textContent = old_text;
+
+    let current_index = 0;
+    let is_deleting = true;
+
+    function type() {
+        if (is_deleting) {
+            el.textContent = old_text.substring(0, current_index);
+            current_index--;
+
+            if (current_index < 0) {
+                is_deleting = false;
+                current_index = 0;
+                old_text = new_text;
+            }
+        } else {
+            el.textContent = new_text.substring(0, current_index);
+            current_index++;
+
+            if (current_index > new_text.length) {
+                return;
+            }
+        }
+        setTimeout(type, speed);
+    }
+    type();
+}
+
+function arr_add_class(els, class_name) {
+    els.forEach(el => {
+        el.classList.add(class_name);
+    })
+}
+
+function arr_remove_class(els, class_name) {
+    els.forEach(el => {
+        el.classList.remove(class_name);
+    })
+}
+
 function get_page_name() {
     let page = window.location.pathname.split('/').pop();
     return page;

@@ -242,6 +242,16 @@ p > a {
 
 @media (max-width: 900px) {.text-abstract, p {text-align: left;}}
 
+@media (max-width: 1000px) {
+    .scroll-bar-container {
+        display: none;
+    }
+    .scroll-container > .content {
+        width: 100%;
+        padding-right: 0;
+    }
+}
+
 @media (max-width: 750px) {
     .book-container {gap: 10vh}
     .container > .text-name {font-size: 2rem;}

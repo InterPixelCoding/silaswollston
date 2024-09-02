@@ -15,6 +15,7 @@ function generate_book(obj, text_image=obj.text_image, text_name=obj.text_name, 
             button.textContent = "Read More";
             button.addEventListener("click", () => {
                 update_read_panel(obj, read_panel);
+                read_panel.style.opacity = '1';
                 setTimeout(() => {
                     read_panel.classList.remove("minimised")
                     if(read_panel.offsetHeight > (document.body.offsetHeight - 100)) {
@@ -42,6 +43,7 @@ function generate_read_panel() {
         })
 
     append_children(panel, [background_image, title, text_abstract, mobile_exit]);
+    panel.style.opacity = '0';
     return panel;
 }
 

@@ -63,7 +63,7 @@
     height: 20rem;
     max-width: unset;
     min-width: unset;
-    transform: translateY(2.5rem);
+    transform: translateY(.25rem);
 }
 
 .listen-item > .cover-image {
@@ -119,6 +119,79 @@
     transform: scale(1.02) translateY(-.125rem);
 }
 
+.toggle {
+    position: relative;
+    display: grid;
+    padding: .2rem;
+    place-content: center;
+    place-items: center;
+    text-align: center;
+    color: var(--transparent-light);
+    font-weight: 900;
+    width: fit-content;
+    height: fit-content;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    margin: 2.5rem auto 0 auto;
+    background: var(--transparent-light);
+    border-radius: 10vw;
+    border: var(--standard-border);
+}
+
+.toggle > * {
+    grid-row: 1 / 2;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    height: 2.5rem;
+}
+
+.position {
+    position: absolute;
+    width: 33.3%;
+    left: .2rem;
+    font-weight: 800;
+    box-shadow: inset 0 .25rem .25rem rgba(0, 0, 0, 0.383),
+                0 .125rem .125rem rgba(0, 0, 0, 0.383);
+    background: var(--white);
+    border-radius: 50vw;
+    color: var(--dark);
+    user-select: none;
+    cursor: pointer;
+    transition: all 250ms ease;
+}
+
+.listen-item.has-embed {
+    margin-bottom: 4.5rem;
+    transform: translateY(-2.25rem);
+}
+
+.listen-item.video-embed {
+    margin-bottom: 2.5rem;
+}
+
+.listen-item.temporary-toggle {
+    display: none;
+}
+
+.listen-items.transition-fade {
+    animation: transition-fade 1s ease;
+}
+
+.composer {
+    grid-column: 1 / 2;
+}
+
+.all {
+    grid-column: 2 / 3;
+}
+
+.performer {
+    grid-column: 3 / 4;
+}
+
 @media (max-width: 450px) {
     .shop-item {
         width: 80%;
@@ -129,5 +202,10 @@
 @keyframes loading {
     0% {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
+}
+
+@keyframes transition-fade {
+    30%, 70% {opacity: 0}
+    0%, 100% {opacity: 1;}
 }
 

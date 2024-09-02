@@ -1,9 +1,69 @@
-let lazy_loading = false;  // Toggle this variable to show or hide loading
+let lazy_loading = true;  // Toggle this variable to show or hide loading
 if(get_client_width() < 800) {lazy_loading = true}
 
 function active_listener(el, listen_item) {
     listen_item.addEventListener("mouseenter", (e) => { el.classList.add("active"); });
     listen_item.addEventListener("mouseleave", (e) => { el.classList.remove("active"); });
+}
+
+const settings = [
+    {name: "Composer", style: "left: .2rem"},
+    {name: "All", style: "left: 50%; transform: translate(-50%)"},
+    {name: "Performer", style: "left: calc(66.666% - .25rem)"}
+];
+
+function update_toggle(toggle, setting) {
+    const composer_items = document.querySelectorAll('.listen-item[aria-label="false"]');
+    const performer_items = document.querySelectorAll('.listen-item[aria-label="true"]');
+    const listen_container = document.querySelector('.listen-items');
+    listen_container.classList.add("transition-fade");
+    setTimeout(() => {
+        listen_container.classList.remove("transition-fade");
+    }, 1000)
+    setTimeout(() => {
+        if(setting === 0) {
+            arr_add_class(performer_items, "temporary-toggle");
+            arr_remove_class(composer_items, "temporary-toggle");
+            performer_items.forEach(item => {item.style.transform = 'translateY(-2.5rem)';})
+            if(get_client_width() <= 693) {
+                composer_items[0].style.transform = 'translateY(0rem)';
+            }
+        } else if (setting === 2) {
+            arr_add_class(composer_items, "temporary-toggle");
+            arr_remove_class(performer_items, "temporary-toggle");
+            performer_items.forEach(item => {item.style.transform = 'translateY(0rem)';})
+        } else if (setting === 1) {
+            arr_remove_class(performer_items, "temporary-toggle");
+            arr_remove_class(composer_items, "temporary-toggle");
+            performer_items.forEach(item => {item.style.transform = 'translateY(-2.5rem)';})
+        }
+    }, 500)
+
+    const position = toggle.querySelector('.position');
+    const old_text = position.textContent;
+    const new_text = settings[setting].name;
+    toggle.setAttribute("data-setting", setting);
+    position.textContent = new_text;
+    position.setAttribute("style", settings[setting].style);
+    typewriter_transition(position, old_text, new_text, 50);
+}
+
+function composer_performer_logic() {
+    let page_suffix = window.location.href.split('#')[1];
+    const toggle = document.querySelector('.toggle');
+        
+    Array.from(toggle.children).forEach( function(button, index) {
+        button.addEventListener("click", () => {
+            update_toggle(toggle, index)
+        })
+    })
+
+    const toggle_index = {
+        composer: 0,
+        performer: 2
+    };
+
+    update_toggle(toggle, toggle_index[page_suffix] ?? 1);
 }
 
 // Select elements
@@ -84,8 +144,7 @@ fetch_data("Listen").then(data => {
             if (listen_item.classList.contains('music-player-parent')) {
                 active_listener(listen_item.querySelector('.music-player'), listen_item);
             }
-            
-            listen_item.style.marginBottom = '4.5rem';
+            listen_item.classList.add("has-embed");
 
             if (item.embed.substring(0, 1) === "<") {
                 const embed = create_element("div", "embed");
@@ -106,7 +165,7 @@ fetch_data("Listen").then(data => {
                 }
             }
         } else {
-            listen_item.style.marginBottom = '2.5rem';
+            listen_item.classList.add("video-embed");
         }
 
         container.appendChild(listen_item);
@@ -116,13 +175,17 @@ fetch_data("Listen").then(data => {
 
     if (!lazy_loading) {
         // Show the loading container if lazy_loading is false
+        composer_performer_logic();
         loading_container.classList.remove('hidden');
+    } else {
+        composer_performer_logic();
     }
 
     Promise.all(iframes).then(() => {
         update_percentage(100);  // Ensure the percentage reaches 100%
         if (!lazy_loading) {
             loading_container.classList.add('hidden');  // Hide the loading container
+
         }
     }).catch(error => {
         console.error('Error with iframe loading:', error);
