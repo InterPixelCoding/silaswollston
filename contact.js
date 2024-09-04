@@ -8,19 +8,13 @@ fetch_data("About").then(data => {
         biography_buttons[index].textContent = biography_obj.biography_type;
         biography_buttons[index].ariaLabel = index;
     })
-
-    // Use innerHTML to allow HTML content, such as links, to render
     biography_par.innerHTML = data[0].biography_text;
-    // biography_par.style.setProperty("--par-height", `${biography_par.offsetHeight}px`);
 
     biography_buttons.forEach(button => {
         button.addEventListener("click", () => {
+            biography_par.scrollTop = '0';
             const biography_obj = data[String(button.ariaLabel)];
-
-            // Use innerHTML to set the content as HTML
             biography_par.innerHTML = biography_obj.biography_text;
-
-            // biography_par.style.setProperty("--par-height", `${biography_par.offsetHeight}px`);
         })
     })
 })  

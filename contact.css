@@ -15,7 +15,7 @@
     max-width: unset;
     display: flex;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(200%);
     padding: .5rem 1.125rem 4rem 1.125rem;
     height: 10vh;
     justify-content: center;
@@ -23,6 +23,8 @@
     gap: .75rem;
     font-family: inherit;
     font-weight: 100;
+
+    animation: slide-in-center 1s 250ms ease forwards;
 }
 
 .biography-specials > button {
@@ -34,14 +36,23 @@
     text-align: center;
     width: 10rem;
     max-width: 25rem;
+
+    transform: translateY(200%);
     transition: 250ms ease all;
+    animation: slide-in 1s 500ms ease forwards;
 }
+
+.biography-specials > button:nth-child(1) {animation: slide-in 1s 500ms ease forwards}
+.biography-specials > button:nth-child(2) {animation: slide-in 1s 700ms ease forwards}
+.biography-specials > button:nth-child(3) {animation: slide-in 1s 900ms ease forwards}
+.biography-specials > button:nth-child(4) {animation: slide-in 1s 1100ms ease forwards}
 
 p {
     font-weight: 100;
     font-size: 1.125rem;
     padding-left: 4.5rem;
     min-height: 7.5rem;
+    line-height: 135%;
     overflow-y: auto;
     width: 90%;
 }
@@ -59,12 +70,88 @@ p {
     background-position: 0 60%;
     background-repeat: no-repeat;
     transform: scale(2);
-    mask-image: linear-gradient(90deg, black 70%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, black 70%, transparent);
+    mask-image: linear-gradient(90deg, black 60%, transparent 90%);
+    -webkit-mask-image: linear-gradient(90deg, black 60%, transparent 90%);
+}
+
+.info-container:has(.image.reversed) {
+    grid-template-columns: 2fr .75fr;
+}
+
+.image.reversed {
+    background: url(./assets/image-2.jpg);
+    background-size: contain;
+    background-position: 1.34rem 50%;
+    background-repeat: no-repeat;
+    transform: scale(1.6);
+    mask-image: linear-gradient(-90deg, black 50%, transparent 90%);
+    -webkit-mask-image: linear-gradient(-90deg, black 50%, transparent 90%);
 }
 
 p > a {
     color: white;
+}
+
+form {
+    display: grid;
+    width: 90%;
+    height: 100%;
+    gap: .25rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+}
+
+form > input {
+    display: grid;
+    place-content: center;
+    place-items: center;
+    height: 3.5rem;
+}
+
+form > * {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    font-size: 1.125rem;
+    font-family: inherit;
+    padding: 1.125rem;
+    border-radius: .45rem;
+    border: 1px solid var(--transparent-light);
+
+    transition: 250ms ease all;
+}
+
+form > *:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+form > *:focus {
+    outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: var(--white);
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 2.5rem 2.5rem rgba(255, 255, 255, 0.25);
+}
+
+.form-input-message {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+}
+
+.form-input-submit {
+    cursor: pointer;
+    width: 7.5em;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    align-self: flex-end;
+    justify-self: right;
+    margin: .5rem;
 }
 
 @media (max-width: 1000px) {
@@ -76,7 +163,7 @@ p > a {
         height: 75%;
     }
 
-    .image {
+    .image, .image.reversed {
         position: relative;
         width: 50vw;
         border-radius: .75rem;
@@ -90,12 +177,53 @@ p > a {
         -webkit-mask-image: linear-gradient(black 60%, transparent);
     }
 
+    .image.reversed {
+        order: -1;
+        width: 40%;
+        aspect-ratio: 1 / 4;
+        background-size: cover;
+        background-position: center center;
+    }
+
     p {
         padding-left: 0; 
         margin-top: auto;
         font-size: 1rem;
     }
 
+}
+
+@media (max-width: 700px) {
+    .contact-container.info-container {
+        justify-content: center;
+        align-items: center;
+    }
+    .contact-container > form {
+        width: 90%;
+        overflow: hidden;
+        grid-template-columns: 1fr 1fr;
+        max-height: 40vh;
+    }
+
+    form > input {
+        padding-inline: 10%;
+        padding-block: 7.5%;
+        font-size: 1rem;
+        min-width: 100%;
+        max-width: 100%;
+        height: fit-content;
+        box-sizing: border-box;
+    }
+
+    textarea.form-input-message {font-size: 1rem;}
+
+    .form-input-submit {
+        width: fit-content;
+    }
+
+    .image.reversed {
+        aspect-ratio: 1.5 / 3;
+    }
 }
 
 @media (max-width: 780px) {
@@ -128,6 +256,26 @@ p > a {
     }
     p {
         max-height: 50%;
+    }
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateY(200%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slide-in-center {
+    0% {
+        transform: translateX(-50%) translateY(200%);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(0%);
     }
 }
 

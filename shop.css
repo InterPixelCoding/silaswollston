@@ -1,3 +1,7 @@
+body {
+    min-height: 101vh;
+}
+
 .info {
     display: grid;
     text-align: center;

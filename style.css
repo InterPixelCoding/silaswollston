@@ -451,6 +451,12 @@ h1 {
         transition: 800ms ease all;
     }
 
+    a.continue-reading.v2 {
+        padding: 1.5vw 2.5vw;
+        border-radius: .5rem;
+        font-size: 3.5vw;
+    }
+
     body .read-more:hover {
         max-height: 100vh;
         background: linear-gradient(var(--white) 80%, var(--white));

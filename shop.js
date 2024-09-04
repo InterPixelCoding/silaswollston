@@ -181,6 +181,10 @@ fetch_data("Listen").then(data => {
         composer_performer_logic();
     }
 
+    if (!lazy_loading) {
+        loading_container.classList.add('hidden');  // Hide the loading container on error
+    }
+
     Promise.all(iframes).then(() => {
         update_percentage(100);  // Ensure the percentage reaches 100%
         if (!lazy_loading) {
@@ -188,9 +192,5 @@ fetch_data("Listen").then(data => {
 
         }
     }).catch(error => {
-        console.error('Error with iframe loading:', error);
-        if (!lazy_loading) {
-            loading_container.classList.add('hidden');  // Hide the loading container on error
-        }
     });
 });
